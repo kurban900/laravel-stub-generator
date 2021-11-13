@@ -61,7 +61,7 @@ class {{ CONTROLLER_NAME }} extends Controller
 
     public function destroy(int $id): RedirectResponse
     {
-        $route = route('admin.{{ ROUTE_NAME }}.index');
+        $route = route('admin.{{ VIEW_PATH_NAME }}.index');
 
         {{ MODEL_VARIABLE }} = {{ MODEL_NAME }}::findOrFail($id);
 
