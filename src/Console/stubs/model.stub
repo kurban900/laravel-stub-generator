@@ -1,0 +1,10 @@
+<?php
+
+namespace App\Models;
+
+class {{ MODEL_NAME }} extends BaseModel
+{
+    protected $table = '{{ TABLE_NAME }}';
+
+    protected $guarded = [];
+}

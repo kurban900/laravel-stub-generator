@@ -1,0 +1,74 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Forms\{{ FORM_NAME }};
+use App\Http\Controllers\Controller;
+use App\Models\{{ MODEL_NAME }};
+use Illuminate\Contracts\Filesystem\Filesystem;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Kris\LaravelFormBuilder\FormBuilder;
+use Kris\LaravelFormBuilder\FormBuilderTrait;
+
+class {{ CONTROLLER_NAME }} extends Controller
+{
+    use FormBuilderTrait;
+
+    public function __construct(private FormBuilder $builder)
+    {
+    }
+
+    public function index(): View
+    {
+        return view('admin.{{ VIEW_PATH_NAME }}.index', ['{{ MODELS_COMPACT_VARIABLE }}' => {{ MODEL_NAME }}::all()]);
+    }
+
+    public function create(): View
+    {
+        $form = $this->builder->create({{ FORM_NAME }}::class);
+
+        return view('admin.{{ VIEW_PATH_NAME }}.create', compact('form'));
+    }
+
+    public function store(Request $request): RedirectResponse
+    {
+        $this->form({{ FORM_NAME }}::class, ['method' => 'PUT'])->redirectIfNotValid();
+        {{ MODEL_NAME }}::create($request->all());
+
+        return redirect()->route('admin.{{ VIEW_PATH_NAME }}.index')->with('success', "Запись добавлена");
+    }
+
+    public function edit(int $id): View
+    {
+        {{ MODEL_VARIABLE }} = {{ MODEL_NAME }}::findOrFail($id);
+        $form = $this->builder->create({{ FORM_NAME }}::class, ['model' => {{ MODEL_VARIABLE }}, 'method' => 'PUT']);
+
+        return view('admin.{{ VIEW_PATH_NAME }}.edit', compact('form', '{{ MODEL_COMPACT_VARIABLE }}'));
+    }
+
+    public function update(Request $request, $id): RedirectResponse
+    {
+        {{ MODEL_VARIABLE }} = {{ MODEL_NAME }}::findOrFail($id);
+
+        $this->form({{ FORM_NAME }}::class, ['method' => 'PUT'])->redirectIfNotValid();
+
+        {{ MODEL_VARIABLE }}->update($request->all());
+
+        return redirect()->route('admin.{{ VIEW_PATH_NAME }}.index')->with('success', 'Запись обновлена');
+    }
+
+    public function destroy(int $id): RedirectResponse
+    {
+        $route = route('admin.{{ ROUTE_NAME }}.index');
+
+        {{ MODEL_VARIABLE }} = {{ MODEL_NAME }}::findOrFail($id);
+
+        if ({{ MODEL_VARIABLE }}->delete()) {
+            return redirect($route)->with('success', 'Запись удалена');
+        }
+
+        return redirect($route)->withErrors('Ошибка при удалении записи');
+    }
+}

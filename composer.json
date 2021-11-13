@@ -1,0 +1,25 @@
+{
+    "name": "kurban900/laravel-stub-generator",
+    "description": "",
+    "authors": [
+        {
+            "name": "Kurban Magomedov",
+            "email": "cuba.pro@ya.ru"
+        }
+    ],
+    "require": {
+        "kris/laravel-form-builder": "^1.40"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kurban900\\LaravelStubGenerator\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Kurban900\\LaravelStubGenerator\\LaravelStubGeneratorServiceProvider"
+            ]
+        }
+    }
+}

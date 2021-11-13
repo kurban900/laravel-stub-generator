@@ -1,0 +1,23 @@
+@extends('layouts.admin')
+
+@section('title', __('labels.{{ VIEW_PATH_NAME }}.edit', ['title' => {{ MODEL_VARIABLE }}->name]))
+
+@section('breadcrumbs')
+    <x-admin.breadcrumb-item :link="route('admin.{{ VIEW_PATH_NAME }}.index')" :label="__('labels.{{ VIEW_PATH_NAME }}.default')"/>
+    <x-admin.breadcrumb-item :label="__('labels.editing')"/>
+@endsection
+
+@section('content')
+    <div class="row">
+        <div class="col-12 col-xxl-8">
+            <div class="card">
+                <div class="card-body">
+                    {!! form($form, ['method' => 'PUT', 'url' => route('admin.{{ VIEW_PATH_NAME }}.update', {{ MODEL_VARIABLE }}->id),]) !!}
+                </div>
+                <div class="card-footer form-inline">
+                    <button form="form" class="btn btn-success">Сохранить изменения</button>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
